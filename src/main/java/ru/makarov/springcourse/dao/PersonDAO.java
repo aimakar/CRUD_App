@@ -11,6 +11,7 @@ import ru.makarov.springcourse.models.Person;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Andrey Makarov on 20.12.2022
@@ -31,6 +32,11 @@ public class PersonDAO {
     public Person show(int id) {
         return jdbcTemplate.query("SELECT * FROM PERSON WHERE ID = ?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(null);
+    }
+
+    public Optional<Person> show(String email) {
+        return jdbcTemplate.query("SELECT * FROM PERSON WHERE EMAIL = ?", new Object[]{email}, new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny();
     }
 
     public void save(Person person) {
